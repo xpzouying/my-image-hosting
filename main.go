@@ -18,16 +18,16 @@ import (
 )
 
 type cosClient struct {
-	c      *cos.Client
-	cosURL string
+	c         *cos.Client
+	cosBucket string
 }
 
-func newCosClient(cosURL, secretID, secretKey string) (*cosClient, error) {
+func newCosClient(cosBucket, secretID, secretKey string) (*cosClient, error) {
 	if secretID == "" || secretKey == "" {
 		return nil, errors.New("should set COS_SECRETID and COS_SECRETKEY first")
 	}
 
-	u, _ := url.Parse(cosURL)
+	u, _ := url.Parse(cosBucket)
 	b := &cos.BaseURL{
 		BucketURL: u,
 	}
@@ -45,8 +45,8 @@ func newCosClient(cosURL, secretID, secretKey string) (*cosClient, error) {
 	})
 
 	return &cosClient{
-		c:      c,
-		cosURL: cosURL,
+		c:         c,
+		cosBucket: cosBucket,
 	}, nil
 }
 
@@ -98,7 +98,7 @@ func (c cosClient) UploadWithHTTPSource(data []byte) (name string, err error) {
 		return "", errors.New("upload image to tencent cos failed")
 	}
 
-	return c.cosURL + "/" + filename, nil
+	return c.cosBucket + "/" + filename, nil
 }
 
 func main() {
@@ -126,11 +126,11 @@ func main() {
 		}
 	}
 
-	cosURL := "https://zyblog-1255449766.cos.ap-beijing.myqcloud.com"
+	cosBucket := os.Getenv("COS_BUCKET")
 	secretID := os.Getenv("COS_SECRETID")
 	secretKey := os.Getenv("COS_SECRETKEY")
 
-	c, err := newCosClient(cosURL, secretID, secretKey)
+	c, err := newCosClient(cosBucket, secretID, secretKey)
 	if err != nil {
 		log.Fatalf("new client for cos failed: %v", err)
 	}
