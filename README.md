@@ -11,7 +11,6 @@
 
 ![upload demo](https://zyblog-1255449766.cos.ap-beijing.myqcloud.com/74df47a1-687c-44a9-b663-998cfb5333f1)
 
-
 **编译**
 
 ```bash
@@ -30,7 +29,25 @@ go build -o upload .
 
 
 
-![](https://zyblog-1255449766.cos.ap-beijing.myqcloud.com/a5ae7bd3-7f1b-49b2-b9d9-99e82f474ade)
+![image-20190729105606855](./assets/image-20190729105606855.png)
+
+
+
+![image-20190729105851289](./assets/image-20190729105851289.png)
+
+
+
+获取API访问密钥
+
+打开[用户列表](https://console.cloud.tencent.com/cam)，新建或者获取已有的API密钥
+
+
+
+![image-20190729111138102](./assets/image-20190729111138102.png)
+
+
+
+获得程序运行的环境变量：`COS_SECRETID`和`COS_SECRETKEY`
 
 
 
