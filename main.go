@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -23,8 +24,8 @@ type cosClient struct {
 }
 
 func newCosClient(cosBucket, secretID, secretKey string) (*cosClient, error) {
-	if secretID == "" || secretKey == "" {
-		return nil, errors.New("should set COS_SECRETID and COS_SECRETKEY first")
+	if cosBucket == "" || secretID == "" || secretKey == "" {
+		return nil, errors.New("set cosBucket, COS_SECRETID and COS_SECRETKEY first")
 	}
 
 	u, _ := url.Parse(cosBucket)
@@ -98,7 +99,7 @@ func (c cosClient) UploadWithHTTPSource(data []byte) (name string, err error) {
 		return "", errors.New("upload image to tencent cos failed")
 	}
 
-	return c.cosBucket + "/" + filename, nil
+	return filepath.Join(c.cosBucket, filename), nil
 }
 
 func main() {
