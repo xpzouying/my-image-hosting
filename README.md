@@ -2,6 +2,14 @@
 
 利用腾讯云（COS）+Golang自制免费图床。
 
+1. 备份图片数据
+2. 不需要担心原始图片丢失、盗链等
+3. 自带CDN加速🚀
+
+
+**示例**
+
+![upload demo](https://zyblog-1255449766.cos.ap-beijing.myqcloud.com/74df47a1-687c-44a9-b663-998cfb5333f1)
 
 
 **编译**
@@ -46,10 +54,4 @@ export COS_SECRETKEY="you-secret-key"
 # or upload local file
 ./upload -file /tmp/1.jpg
 ```
-
-
-
-**示例**
-
-![upload demo](https://zyblog-1255449766.cos.ap-beijing.myqcloud.com/74df47a1-687c-44a9-b663-998cfb5333f1)
 
