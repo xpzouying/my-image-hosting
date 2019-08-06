@@ -1,5 +1,10 @@
-const { BrowserWindow } = require("electron");
+const { BrowserWindow, ipcMain } = require("electron");
+const settings = require("electron-settings");
 const path = require("path");
+
+ipcMain.on("synchronous-message", (event, arg) => {
+  console.log("get haha: ", arg);
+});
 
 let configWindow;
 
@@ -13,7 +18,7 @@ function createConfigWindow() {
     title: "config"
   });
 
-  configWindow.loadFile("config.html");
+  configWindow.loadFile(path.join(__dirname, "config-window.html"));
 
   configWindow.on("closed", () => {
     configWindow = null;
@@ -21,5 +26,6 @@ function createConfigWindow() {
 }
 
 module.exports = {
+  configWindow: configWindow,
   createConfigWindow: createConfigWindow
 };

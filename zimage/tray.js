@@ -1,12 +1,14 @@
 const { app, Tray, Menu } = require("electron");
 const path = require("path");
 
-const configWindow = require("./config");
+const conf = require("./config-window");
 
 let tray;
 
 function openConfigWindow() {
-  configWindow.createConfigWindow();
+  if (conf.configWindow == null) {
+    conf.createConfigWindow();
+  }
 }
 
 function newTrayMenuTemplate() {

@@ -4,7 +4,8 @@
   "description": "zimage for image storage",
   "main": "main.js",
   "dependencies": {
-    "electron": "^6.0.0"
+    "electron": "^6.0.0",
+    "electron-settings": "^3.2.0"
   },
   "devDependencies": {},
   "scripts": {
