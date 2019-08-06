@@ -1,0 +1,16 @@
+{
+  "name": "zimage",
+  "version": "1.0.0",
+  "description": "zimage for image storage",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^6.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xpzouying@gmail.com",
+  "license": "GPL-3.0-or-later"
+}
