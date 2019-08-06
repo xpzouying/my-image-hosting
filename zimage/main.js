@@ -11,6 +11,11 @@ function uploadCopiedImage() {
 }
 
 app.on("ready", function() {
-  console.log("hello world");
   tray.createTray();
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });
