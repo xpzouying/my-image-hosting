@@ -1,7 +1,7 @@
-const { app, Tray, Menu } = require("electron");
+const { app, Tray, Menu, clipboard, dialog } = require("electron");
 const path = require("path");
-
 const conf = require("./config");
+const { putObject } = require("./cos");
 
 let tray;
 
@@ -12,7 +12,15 @@ function openConfigWindow() {
 }
 
 function uploadCopiedImage() {
-  console.log("upload copied image");
+  let image = clipboard.readImage("clipboard");
+  let imageSize = image.getSize();
+
+  if (imageSize.height === 0 || imageSize.width === 0) {
+    dialog.showErrorBox("invalid image", "image is empty");
+    return;
+  }
+
+  putObject(image.toJPEG(100));
 }
 
 function newTrayMenuTemplate() {

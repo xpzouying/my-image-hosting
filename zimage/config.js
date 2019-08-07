@@ -2,15 +2,14 @@ const { BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const settings = require("electron-settings");
 
+let configWindow;
+
+// save config when click the button in settings window
 ipcMain.on("save-config", (event, arg) => {
   global.config = arg;
 
-  console.debug("config will save: ", global.config);
-
   settings.set("config", global.config);
 });
-
-let configWindow;
 
 function createConfigWindow() {
   configWindow = new BrowserWindow({

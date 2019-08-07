@@ -7,13 +7,14 @@ global.config = {
   cos: null
 };
 
-function loadLocalConfig() {
+function loadConfigFromLocalFS() {
   globalConfig = settings.get("config");
   global.config = globalConfig;
 }
 
 app.on("ready", function() {
-  loadLocalConfig();
+  loadConfigFromLocalFS();
+
   tray.createTray();
 });
 
