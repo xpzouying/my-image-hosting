@@ -18,5 +18,5 @@
 
 上传粘贴板中的图片。
 
-![upload-image](./assets/upload_in_clipboard.gif)
+![upload-image](./assets/upload-clipboard.gif)
 
