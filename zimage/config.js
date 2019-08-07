@@ -43,6 +43,7 @@ function createConfigWindow() {
 }
 
 module.exports = {
+  config: config,
   configWindow: configWindow,
   createConfigWindow: createConfigWindow
 };

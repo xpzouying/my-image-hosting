@@ -1,16 +1,14 @@
 const { Notification, clipboard } = require("electron");
-const path = require("path");
 const COS = require("cos-nodejs-sdk-v5");
 const uuidv4 = require("uuid/v4");
+const { config } = require("./config");
 
 let cos;
 
 function createCOSClient() {
-  let cosConfig = global.config.cos;
-
   cos = new COS({
-    SecretId: cosConfig.secretid,
-    SecretKey: cosConfig.secretkey
+    SecretId: config.cos.secretid,
+    SecretKey: config.cos.secretkey
   });
 }
 
@@ -19,14 +17,16 @@ function putObject(imageBuffer) {
     createCOSClient();
   }
 
-  let config = global.config.cos;
+  console.debug("put object config: ", config.cos);
 
   let objectKey = uuidv4();
+  let bucket = config.cos.bucket;
+  let region = config.cos.region;
 
   cos.putObject(
     {
-      Bucket: config.bucket,
-      Region: config.region,
+      Bucket: bucket,
+      Region: region,
       Key: objectKey,
       Body: imageBuffer,
       Headers: {
@@ -35,17 +35,12 @@ function putObject(imageBuffer) {
     },
     function(err) {
       if (err) {
-        console.error(err);
+        console.error("put object error: ", err);
         return;
       }
 
       objectUrl =
-        "https://" +
-        config.bucket +
-        ".cos." +
-        config.region +
-        ".myqcloud.com/" +
-        objectKey;
+        "https://" + bucket + ".cos." + region + ".myqcloud.com/" + objectKey;
 
       clipboard.writeText(objectUrl);
       console.log("copied image address: ", objectUrl);
