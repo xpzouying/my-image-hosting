@@ -9,3 +9,14 @@
 - 多存储后端选择：
   - 腾讯云的对象存储：COS
   - 未来会支持更多的对象存储
+
+
+
+
+
+## 示例
+
+上传粘贴板中的图片。
+
+![upload-image](./assets/upload_in_clipboard.gif)
+
