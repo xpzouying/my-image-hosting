@@ -1,0 +1,50 @@
+.title {
+  font-size: 36px;
+}
+
+.main {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+
+  margin: 10px;
+}
+
+.section {
+  display: flex;
+  width: fit-content;
+  padding: 0.25rem;
+  margin: 0.25rem;
+}
+
+.section label {
+  font-weight: bold;
+  width: 100px;
+}
+
+.section input {
+  width: 400px;
+  height: auto;
+  font-size: 18px;
+}
+
+
+.button {
+  font-weight: bold;
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid rgba(250, 212, 84, 0.5);
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.62em;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+  font-size: 18px;
+}
+
+.button:hover {
+  color: #000000;
+  background-color: rgba(250, 212, 84, 0.5);
+}

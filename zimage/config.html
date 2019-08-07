@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./assets/css/config.css" type="text/css" />
+  </head>
+
+  <body>
+    <header>
+      <h1 class="title">腾讯云配置</h1>
+    </header>
+
+    <hr />
+
+    <div class="main">
+      <div class="section">
+        <label>Region: </label>
+        <input type="text" id="input-region" name="region" />
+      </div>
+
+      <div class="section">
+        <label>Bucket: </label>
+        <input type="text" id="input-bucket" name="bucket" />
+      </div>
+
+      <div class="section">
+        <label>SecretId: </label>
+        <input type="text" id="input-secretid" name="secretid" />
+      </div>
+
+      <div class="section">
+        <label>SecretKey: </label>
+        <input type="text" id="input-secretkey" name="secretkey" />
+      </div>
+
+      <div class="btnsection">
+        <button class="button" type="button" id="savebutton">保存</button>
+      </div>
+    </div>
+    <script>
+      require("./config-render.js");
+    </script>
+  </body>
+</html>

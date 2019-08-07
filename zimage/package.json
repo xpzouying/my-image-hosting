@@ -1,0 +1,20 @@
+{
+  "name": "zimage",
+  "version": "1.0.0",
+  "description": "zimage for image storage",
+  "main": "main.js",
+  "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.5.9",
+    "electron": "^6.0.0",
+    "electron-settings": "^3.2.0",
+    "uuid": "^3.3.2",
+    "vex-js": "^4.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xpzouying@gmail.com",
+  "license": "GPL-3.0-or-later"
+}
