@@ -15,6 +15,20 @@
 
 
 
+## 开发
+
+
+
+```bash
+cd zimage
+
+npm install
+
+npm start
+```
+
+
+
 ## 示例
 
 上传粘贴板中的图片。
