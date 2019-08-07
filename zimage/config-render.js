@@ -1,9 +1,8 @@
-const { ipcRenderer, remote } = require("electron");
+const { ipcRenderer } = require("electron");
 
-let config = remote.getGlobal("config");
+let config = ipcRenderer.sendSync("init-config");
 
 let saveButton = document.getElementById("savebutton");
-
 let regionInput = document.getElementById("input-region");
 let bucketInput = document.getElementById("input-bucket");
 let secretIDInput = document.getElementById("input-secretid");
@@ -22,6 +21,14 @@ saveButton.addEventListener("click", () => {
 
 // set input value
 window.addEventListener("load", () => {
+  if (config === null) {
+    config = {
+      cos: null
+    };
+
+    return;
+  }
+
   regionInput.value = config.cos.region;
   bucketInput.value = config.cos.bucket;
   secretIDInput.value = config.cos.secretid;
