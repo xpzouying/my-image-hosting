@@ -11,6 +11,10 @@ function openConfigWindow() {
   }
 }
 
+function uploadCopiedImage() {
+  console.log("upload copied image");
+}
+
 function newTrayMenuTemplate() {
   return (trayMenuTemplate = [
     {
