@@ -5,7 +5,8 @@
   "main": "main.js",
   "dependencies": {
     "electron": "^6.0.0",
-    "electron-settings": "^3.2.0"
+    "electron-settings": "^3.2.0",
+    "vex-js": "^4.1.0"
   },
   "devDependencies": {},
   "scripts": {

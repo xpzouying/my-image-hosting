@@ -1,7 +1,7 @@
 const { app, Tray, Menu } = require("electron");
 const path = require("path");
 
-const conf = require("./config-window");
+const conf = require("./config");
 
 let tray;
 
