@@ -31,7 +31,7 @@ npm start
 
 ## 示例
 
-上传粘贴板中的图片。
+### 上传复制的图片
 
 
 
@@ -46,3 +46,15 @@ npm start
 
 ![upload-image](./assets/upload-clipboard.gif)
 
+
+
+### 上传截图
+
+**操作**
+
+1. 使用工具进行截图：微信自带功能、[腾讯jietu](https://jietu.qq.com/)
+2. 点击上传
+
+
+
+![jietu](./assets/upload-shotscreen.gif)
