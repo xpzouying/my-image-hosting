@@ -31,16 +31,18 @@ npm start
 
 ## 示例
 
+1. 配置COS
+2. 复制需要上传的图片
+3. 图片的URL在上传后，自动被粘贴到剪切板
+
+
+
 ### 上传复制的图片
-
-
 
 **操作**
 
-1. 配置
 2. 复制图片、截图、“Ctrl+C”等等
 3. 点击上传
-4. 图片链接自动保存到粘贴板，直接使用
 
 
 
@@ -58,3 +60,16 @@ npm start
 
 
 ![jietu](./assets/upload-shotscreen.gif)
+
+
+
+### 上传本地文件
+
+**操作**
+
+1. 复制图片，“CTRL+C”，或者“Cmd+C”
+2. 点击上传
+
+
+
+![upload-local-file](./assets/upload-localfs.gif)
