@@ -1,7 +1,7 @@
 const { Notification, clipboard } = require("electron");
 const COS = require("cos-nodejs-sdk-v5");
 const uuidv4 = require("uuid/v4");
-const { config } = require("./config");
+const { config } = require("./config/config");
 
 let cos;
 
