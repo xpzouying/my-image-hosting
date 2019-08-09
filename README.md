@@ -29,6 +29,22 @@ npm start
 
 
 
+## 编译
+
+```bash
+yarn run package
+```
+
+应用程序生成目录：`./out/zimage-darwin-x64`
+
+## 打包
+
+```bash
+yarn run make
+```
+
+打包程序生成目录：`./out/make/`
+
 ## 示例
 
 1. 配置COS
