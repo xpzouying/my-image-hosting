@@ -47,7 +47,7 @@ function newTrayMenuTemplate() {
 }
 
 function createTray() {
-  tray = new Tray(path.join("favicon.png"));
+  tray = new Tray(path.join(__dirname, "favicon.png"));
 
   trayMenu = Menu.buildFromTemplate(newTrayMenuTemplate());
   tray.setContextMenu(trayMenu);
