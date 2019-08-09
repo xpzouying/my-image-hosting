@@ -1,6 +1,6 @@
 const { app, Tray, Menu, clipboard, dialog } = require("electron");
 const path = require("path");
-const conf = require("./config");
+const conf = require("./config/config");
 const { putObject } = require("./cos");
 
 let tray;

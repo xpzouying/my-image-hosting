@@ -1,6 +1,6 @@
 const { app } = require("electron");
 
-const tray = require("./tray");
+const tray = require("./src/tray");
 
 app.on("ready", function() {
   tray.createTray();
