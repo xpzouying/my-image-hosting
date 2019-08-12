@@ -12,8 +12,8 @@ function openConfigWindow() {
 }
 
 function uploadCopiedImage() {
-  let image = clipboard.readImage("clipboard");
-  let imageSize = image.getSize();
+  const image = clipboard.readImage("clipboard");
+  const imageSize = image.getSize();
 
   if (imageSize.height === 0 || imageSize.width === 0) {
     dialog.showErrorBox("invalid image", "image is empty");
@@ -23,8 +23,10 @@ function uploadCopiedImage() {
   putObject(image.toJPEG(100));
 }
 
-function newTrayMenuTemplate() {
-  return (trayMenuTemplate = [
+function createTray() {
+  tray = new Tray(path.join(__dirname, "../assets/images", "favicon.png"));
+
+  const trayMenuTemplate = [
     {
       label: "config...",
       click: function() {
@@ -43,13 +45,8 @@ function newTrayMenuTemplate() {
         app.quit();
       }
     }
-  ]);
-}
-
-function createTray() {
-  tray = new Tray(path.join(__dirname, "../assets/images", "favicon.png"));
-
-  trayMenu = Menu.buildFromTemplate(newTrayMenuTemplate());
+  ];
+  const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
   tray.setContextMenu(trayMenu);
 }
 

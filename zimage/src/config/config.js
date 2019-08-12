@@ -1,13 +1,10 @@
-const { BrowserWindow, ipcMain } = require("electron");
-const path = require("path");
+import { BrowserWindow, ipcMain } from "electron";
 const settings = require("electron-settings");
 
 let config = settings.get("config");
 
-// config 窗体
 let configWindow;
 
-// save config when click the button in settings window
 ipcMain.on("save-config", (event, arg) => {
   console.debug("save config: ", arg);
   config = arg;
@@ -22,6 +19,7 @@ ipcMain.on("init-config", event => {
   event.returnValue = config;
 });
 
+// const createConfigWindow = async () => {
 function createConfigWindow() {
   configWindow = new BrowserWindow({
     width: 640,
@@ -29,18 +27,40 @@ function createConfigWindow() {
     resizable: false,
     fullscreen: false,
     minimizable: false,
-    title: "config",
+    title: "settings",
     webPreferences: {
       nodeIntegration: true
     }
   });
 
-  configWindow.loadFile(path.join(__dirname, "config.html"));
+  configWindow.loadURL(`file://${__dirname}/config.html`);
 
   configWindow.on("closed", () => {
     configWindow = null;
   });
 }
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+// app.on("ready", createWindow);
+
+// // Quit when all windows are closed.
+// app.on("window-all-closed", () => {
+//   // On OS X it is common for applications and their menu bar
+//   // to stay active until the user quits explicitly with Cmd + Q
+//   if (process.platform !== "darwin") {
+//     app.quit();
+//   }
+// });
+
+// app.on("activate", () => {
+//   // On OS X it's common to re-create a window in the app when the
+//   // dock icon is clicked and there are no other windows open.
+//   if (configWindow === null) {
+//     createWindow();
+//   }
+// });
 
 module.exports = {
   config: config,
