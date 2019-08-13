@@ -1,4 +1,11 @@
-const { app, Tray, Menu, clipboard, dialog } = require("electron");
+const {
+  app,
+  Tray,
+  Menu,
+  clipboard,
+  dialog,
+  BrowserWindow
+} = require("electron");
 const path = require("path");
 const conf = require("./config/config");
 const { putObject } = require("./cos");
@@ -9,6 +16,31 @@ function openConfigWindow() {
   if (conf.configWindow == null) {
     conf.createConfigWindow();
   }
+}
+
+function openSettingsWindow() {
+  let win = new BrowserWindow({
+    width: 640,
+    height: 480,
+    resizable: true,
+    fullscreen: false,
+    minimizable: false,
+    title: "settings",
+    webPreferences: {
+      nodeIntegration: true
+    },
+    show: false
+  });
+
+  win.loadURL(`file://${__dirname}/settings/settings.html`);
+
+  win.on("closed", () => {
+    win = null;
+  });
+
+  win.on("ready-to-show", () => {
+    win.show();
+  });
 }
 
 function uploadCopiedImage() {
@@ -31,6 +63,12 @@ function createTray() {
       label: "config...",
       click: function() {
         openConfigWindow();
+      }
+    },
+    {
+      label: "settings...",
+      click: function() {
+        openSettingsWindow();
       }
     },
     {

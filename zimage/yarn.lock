@@ -1280,6 +1280,11 @@ buffers@~0.1.1:
   resolved "https://registry.npm.taobao.org/buffers/download/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
   integrity sha1-skV5w77U1tOWru5tmorn9Ugqt7s=
 
+bulma@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.npm.taobao.org/bulma/download/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
+  integrity sha1-NQZsN/gsCIto+URQvnWPwAqWcgg=
+
 caller-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npm.taobao.org/caller-path/download/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"

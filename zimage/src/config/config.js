@@ -24,19 +24,24 @@ function createConfigWindow() {
   configWindow = new BrowserWindow({
     width: 640,
     height: 480,
-    resizable: false,
+    resizable: true,
     fullscreen: false,
     minimizable: false,
     title: "settings",
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    show: false
   });
 
   configWindow.loadURL(`file://${__dirname}/config.html`);
 
   configWindow.on("closed", () => {
     configWindow = null;
+  });
+
+  configWindow.on("ready-to-show", () => {
+    configWindow.show();
   });
 }
 
