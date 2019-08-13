@@ -1,7 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
+const { ipcRenderer } = require("electron");
+
+let config = ipcRenderer.sendSync("init-config-v2");
 
 class Input extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: this.props.value
+    };
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value
+    });
+
+    this.props.onInputChange && this.props.onInputChange(event.target.value);
+  }
+
   render() {
     return (
       <div className="field has-addons">
@@ -15,6 +34,10 @@ class Input extends React.Component {
             className="input"
             type="text"
             placeholder={this.props.placeholder}
+            value={this.state.value}
+            onChange={event => {
+              this.handleChange(event);
+            }}
           />
         </p>
       </div>
@@ -22,20 +45,104 @@ class Input extends React.Component {
   }
 }
 
-const CosForm = () => {
-  return (
-    <div className="container">
-      <Input label="Region" placeholder="ap-beijing" />
-      <Input label="Bucket" placeholder="your bucket" />
-      <Input label="secretid" placeholder="COS_SECRETID" />
-      <Input label="secretkey" placeholder="COS_SECRETKEY" />
+class CosForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      config: {
+        cos: config.cos
+      }
+    };
 
-      <p className="control">
-        <a className="button is-primary">保存</a>
-      </p>
-    </div>
-  );
-};
+    this.submitClick = this.submitClick.bind(this);
+    this.onRegionInputChange = this.onRegionInputChange.bind(this);
+    this.onBucketInputChange = this.onBucketInputChange.bind(this);
+    this.onSecretKeyChange = this.onSecretKeyChange.bind(this);
+    this.onSecretIDChange = this.onSecretIDChange.bind(this);
+  }
+
+  submitClick() {
+    var cosCfg = this.state.config.cos;
+
+    config.cos = {
+      region: cosCfg.region,
+      bucket: cosCfg.bucket,
+      secretid: cosCfg.secretid,
+      secretkey: cosCfg.secretkey
+    };
+
+    ipcRenderer.send("save-config-v2", config);
+  }
+
+  onRegionInputChange(value) {
+    var cfg = this.state.config;
+    cfg.cos.region = value;
+    this.setState({ config: cfg });
+  }
+
+  onBucketInputChange(value) {
+    var cfg = this.state.config;
+    cfg.cos.bucket = value;
+    this.setState({ config: cfg });
+  }
+
+  onSecretKeyChange(value) {
+    var cfg = this.state.config;
+    cfg.cos.secretkey = value;
+    this.setState({ config: cfg });
+  }
+
+  onSecretIDChange(value) {
+    var cfg = this.state.config;
+    cfg.cos.secretid = value;
+    this.setState({ config: cfg });
+  }
+
+  render() {
+    var cfg = this.state.config.cos;
+    console.log("render config: ", cfg);
+    var region = cfg ? cfg.region : "";
+    var bucket = cfg ? cfg.bucket : "";
+    var secretid = cfg ? cfg.secretid : "";
+    var secretkey = cfg ? cfg.secretkey : "";
+
+    return (
+      <div className="container">
+        <Input
+          label="Region"
+          placeholder="ap-beijing"
+          value={region}
+          onInputChange={this.onRegionInputChange}
+        />
+
+        <Input
+          label="Bucket"
+          placeholder="your bucket"
+          value={bucket}
+          onInputChange={this.onBucketInputChange}
+        />
+
+        <Input
+          label="secretid"
+          placeholder="COS_SECRETID"
+          value={secretid}
+          onInputChange={this.onSecretIDChange}
+        />
+
+        <Input
+          label="secretkey"
+          placeholder="COS_SECRETKEY"
+          value={secretkey}
+          onInputChange={this.onSecretKeyChange}
+        />
+
+        <p className="control" onClick={this.submitClick}>
+          <a className="button is-primary">保存</a>
+        </p>
+      </div>
+    );
+  }
+}
 
 const settingsElement = (
   <section className="section">

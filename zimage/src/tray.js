@@ -7,16 +7,9 @@ const {
   BrowserWindow
 } = require("electron");
 const path = require("path");
-const conf = require("./config/config");
 const { putObject } = require("./cos");
 
 let tray;
-
-function openConfigWindow() {
-  if (conf.configWindow == null) {
-    conf.createConfigWindow();
-  }
-}
 
 function openSettingsWindow() {
   let win = new BrowserWindow({
@@ -59,12 +52,6 @@ function createTray() {
   tray = new Tray(path.join(__dirname, "../assets/images", "favicon.png"));
 
   const trayMenuTemplate = [
-    {
-      label: "config...",
-      click: function() {
-        openConfigWindow();
-      }
-    },
     {
       label: "settings...",
       click: function() {
