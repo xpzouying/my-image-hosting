@@ -1,14 +1,16 @@
 const { Notification, clipboard } = require("electron");
 const COS = require("cos-nodejs-sdk-v5");
 const uuidv4 = require("uuid/v4");
-const { config } = require("./config/config");
+const { config } = require("./config");
+
+var cosCfg = config.cos;
 
 let cos;
 
 function createCOSClient() {
   cos = new COS({
-    SecretId: config.cos.secretid,
-    SecretKey: config.cos.secretkey
+    SecretId: cosCfg.secretid,
+    SecretKey: cosCfg.secretkey
   });
 }
 
@@ -17,11 +19,11 @@ function putObject(imageBuffer) {
     createCOSClient();
   }
 
-  console.debug("put object config: ", config.cos);
+  console.debug("put object config: ", cosCfg);
 
   let objectKey = uuidv4();
-  let bucket = config.cos.bucket;
-  let region = config.cos.region;
+  let bucket = cosCfg.bucket;
+  let region = cosCfg.region;
 
   cos.putObject(
     {
@@ -39,7 +41,7 @@ function putObject(imageBuffer) {
         return;
       }
 
-      objectUrl =
+      let objectUrl =
         "https://" + bucket + ".cos." + region + ".myqcloud.com/" + objectKey;
 
       clipboard.writeText(objectUrl);
