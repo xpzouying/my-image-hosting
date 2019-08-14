@@ -4,26 +4,24 @@ const {
   Menu,
   clipboard,
   dialog,
-  BrowserWindow
+  BrowserWindow,
+  Notification
 } = require("electron");
 const path = require("path");
 const { putObject } = require("./cos");
+const { saveUploadHistory } = require("./history");
 
 let tray = null;
 
 function openPreview() {
   let preview = new BrowserWindow({
     title: "preview",
-    show: false
+    show: true
   });
 
   preview.loadURL(`file://${__dirname}/preview/preview.html`);
   preview.on("closed", () => {
     preview = null;
-  });
-
-  preview.on("ready-to-show", () => {
-    preview.show();
   });
 
   return preview;
@@ -63,7 +61,18 @@ function uploadCopiedImage() {
     return;
   }
 
-  putObject(image.toJPEG(100));
+  const url = putObject(image.toJPEG(100));
+  console.log("put object: ", url);
+
+  clipboard.writeText(url);
+
+  let notification = new Notification({
+    title: "图片地址已经拷贝",
+    body: url
+  });
+  notification.show();
+
+  saveUploadHistory(url);
 }
 
 function createTray() {

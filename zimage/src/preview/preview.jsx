@@ -1,30 +1,25 @@
+const { ipcRenderer } = require("electron");
 import React from "react";
 import ReactDOM from "react-dom";
 
-class Element {
-  constructor(url) {
-    this.url = url;
-
-    // TODO(zouying): use momentjs.com
-    this.date = now();
-  }
-}
-
 class PreviewElement extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    let imageURL = this.props.imagesrc;
+
     return (
       <div className="media">
         <div className="media-left">
-          <figure className="image is-48x48">
-            <img
-              src="https://bulma.io/images/placeholders/96x96.png"
-              alt="Placeholder image"
-            />
+          <figure className="image is-64x64">
+            <img src={imageURL} alt="Placeholder image" />
           </figure>
         </div>
         <div className="media-content">
           <p className="title is-4">图片信息</p>
-          <p className="subtitle is-6">http://haha.ai</p>
+          <p className="subtitle is-6">{this.props.imagesrc}</p>
         </div>
       </div>
     );
@@ -32,29 +27,13 @@ class PreviewElement extends React.Component {
 }
 
 class PreviewList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      elements: ["1", "2"]
-    };
-  }
-
-  appendElement(el) {
-    if (this.state.elements.length >= 5) {
-      this.state.elements.shift();
-    }
-
-    this.state.elements.push(el);
-  }
-
   render() {
-    console.log(this.state.elements);
+    let history = ipcRenderer.sendSync("preview-history");
+    console.log("preview list history: ", history);
 
-    let history = [];
-
-    this.state.elements.map(() => {
-      history.push(<PreviewElement />);
+    let list = [];
+    history.map((elem, index) => {
+      list.push(<PreviewElement key={index} imagesrc={elem} />);
     });
 
     return (
@@ -63,7 +42,7 @@ class PreviewList extends React.Component {
 
         <hr />
 
-        {history}
+        {list}
       </div>
     );
   }
