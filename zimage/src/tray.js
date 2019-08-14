@@ -9,7 +9,25 @@ const {
 const path = require("path");
 const { putObject } = require("./cos");
 
-let tray;
+let tray = null;
+
+function openPreview() {
+  let preview = new BrowserWindow({
+    title: "preview",
+    show: false
+  });
+
+  preview.loadURL(`file://${__dirname}/preview/preview.html`);
+  preview.on("closed", () => {
+    preview = null;
+  });
+
+  preview.on("ready-to-show", () => {
+    preview.show();
+  });
+
+  return preview;
+}
 
 function openSettingsWindow() {
   let win = new BrowserWindow({
@@ -71,10 +89,23 @@ function createTray() {
       }
     }
   ];
+
+  tray.on("right-click", () => {
+    console.log("right-click");
+
+    let preview = openPreview();
+  });
+
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
   tray.setContextMenu(trayMenu);
 }
 
 module.exports = {
-  createTray: createTray
+  createTray: () => {
+    if (tray === null) {
+      createTray();
+    }
+
+    return tray;
+  }
 };
