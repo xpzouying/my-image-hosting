@@ -49,9 +49,7 @@ class CosForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {
-        cos: config.cos
-      }
+      cosConfig: config.cos
     };
 
     this.submitClick = this.submitClick.bind(this);
@@ -62,44 +60,36 @@ class CosForm extends React.Component {
   }
 
   submitClick() {
-    var cosCfg = this.state.config.cos;
-
-    config.cos = {
-      region: cosCfg.region,
-      bucket: cosCfg.bucket,
-      secretid: cosCfg.secretid,
-      secretkey: cosCfg.secretkey
-    };
-
-    ipcRenderer.send("save-config-v2", config);
+    console.log("cos submit click: ", this.state.cosConfig);
+    ipcRenderer.sendSync("save-cos-config", this.state.cosConfig);
   }
 
   onRegionInputChange(value) {
-    var cfg = this.state.config;
-    cfg.cos.region = value;
-    this.setState({ config: cfg });
+    var cfg = this.state.cosConfig;
+    cfg.region = value;
+    this.setState({ cosConfig: cfg });
   }
 
   onBucketInputChange(value) {
-    var cfg = this.state.config;
-    cfg.cos.bucket = value;
-    this.setState({ config: cfg });
+    var cfg = this.state.cosConfig;
+    cfg.bucket = value;
+    this.setState({ cosConfig: cfg });
   }
 
   onSecretKeyChange(value) {
-    var cfg = this.state.config;
-    cfg.cos.secretkey = value;
-    this.setState({ config: cfg });
+    var cfg = this.state.cosConfig;
+    cfg.secretkey = value;
+    this.setState({ cosConfig: cfg });
   }
 
   onSecretIDChange(value) {
-    var cfg = this.state.config;
-    cfg.cos.secretid = value;
-    this.setState({ config: cfg });
+    var cfg = this.state.cosConfig;
+    cfg.secretid = value;
+    this.setState({ cosConfig: cfg });
   }
 
   render() {
-    var cfg = this.state.config.cos;
+    var cfg = this.state.cosConfig;
     console.log("render config: ", cfg);
     var region = cfg ? cfg.region : "";
     var bucket = cfg ? cfg.bucket : "";

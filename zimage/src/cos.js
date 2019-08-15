@@ -1,13 +1,18 @@
 const { Notification } = require("electron");
 const COS = require("cos-nodejs-sdk-v5");
 const uuidv4 = require("uuid/v4");
-const { config } = require("./config");
-
-var cosCfg = config.cos;
+const { getConfig } = require("./config");
 
 let cos;
 
 function putObject(imageBuffer) {
+  let cfg = getConfig();
+  let cosCfg = cfg.cos;
+
+  var bucket = cosCfg.bucket;
+  var region = cosCfg.region;
+  var objectKey = uuidv4();
+
   if (cos == null) {
     cos = new COS({
       SecretId: cosCfg.secretid,
@@ -15,11 +20,7 @@ function putObject(imageBuffer) {
     });
   }
 
-  console.debug("put object config: ", cosCfg);
-
-  let objectKey = uuidv4();
-  let bucket = cosCfg.bucket;
-  let region = cosCfg.region;
+  console.debug("put object config: ", bucket, region);
 
   cos.putObject(
     {
