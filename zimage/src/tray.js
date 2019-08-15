@@ -14,16 +14,26 @@ const { saveUploadHistory } = require("./history");
 
 let tray = null;
 
+let preview = null;
+
 function openPreview() {
   let preview = new BrowserWindow({
-    title: "preview",
     show: false,
     modal: false,
-    alwaysOnTop: true
+    frame: false
   });
 
   preview.on("closed", () => {
     preview = null;
+  });
+
+  preview.on("blur", () => {
+    preview.close();
+    preview = null;
+  });
+
+  preview.on("ready-to-show", () => {
+    preview.show();
   });
 
   preview.loadURL(`file://${__dirname}/preview/preview.html`);
@@ -39,6 +49,7 @@ function openSettingsWindow() {
     fullscreen: false,
     minimizable: false,
     title: "settings",
+    titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: true
     },
@@ -103,9 +114,15 @@ function createTray() {
   ];
 
   tray.on("right-click", () => {
-    let preview = openPreview();
+    if (preview !== null) {
+      preview.close();
+      preview = null;
+      return;
+    }
+
+    preview = openPreview();
     positioner.position(preview, tray.getBounds());
-    preview.show();
+    preview.focus();
   });
 
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
