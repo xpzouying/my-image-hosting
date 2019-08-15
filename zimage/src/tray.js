@@ -4,12 +4,42 @@ const {
   Menu,
   clipboard,
   dialog,
-  BrowserWindow
+  BrowserWindow,
+  Notification
 } = require("electron");
 const path = require("path");
+const positioner = require("electron-traywindow-positioner");
 const { putObject } = require("./cos");
+const { saveUploadHistory } = require("./history");
 
-let tray;
+let tray = null;
+
+let preview = null;
+
+function openPreview() {
+  let preview = new BrowserWindow({
+    show: false,
+    modal: false,
+    frame: false
+  });
+
+  preview.on("closed", () => {
+    preview = null;
+  });
+
+  preview.on("blur", () => {
+    preview.close();
+    preview = null;
+  });
+
+  preview.on("ready-to-show", () => {
+    preview.show();
+  });
+
+  preview.loadURL(`file://${__dirname}/preview/preview.html`);
+
+  return preview;
+}
 
 function openSettingsWindow() {
   let win = new BrowserWindow({
@@ -19,6 +49,7 @@ function openSettingsWindow() {
     fullscreen: false,
     minimizable: false,
     title: "settings",
+    titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: true
     },
@@ -45,7 +76,17 @@ function uploadCopiedImage() {
     return;
   }
 
-  putObject(image.toJPEG(100));
+  const url = putObject(image);
+
+  clipboard.writeText(url);
+
+  let notification = new Notification({
+    title: "图片地址已经拷贝",
+    body: url
+  });
+  notification.show();
+
+  saveUploadHistory(url, image);
 }
 
 function createTray() {
@@ -53,28 +94,47 @@ function createTray() {
 
   const trayMenuTemplate = [
     {
-      label: "settings...",
+      label: "设置...",
       click: function() {
         openSettingsWindow();
       }
     },
     {
-      label: "upload image in clipboard",
+      label: "上传 - 剪切板图片",
       click: function() {
         uploadCopiedImage();
       }
     },
     {
-      label: "quit",
+      label: "退出",
       click: function() {
         app.quit();
       }
     }
   ];
+
+  tray.on("right-click", () => {
+    if (preview !== null) {
+      preview.close();
+      preview = null;
+      return;
+    }
+
+    preview = openPreview();
+    positioner.position(preview, tray.getBounds());
+    preview.focus();
+  });
+
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
   tray.setContextMenu(trayMenu);
 }
 
 module.exports = {
-  createTray: createTray
+  createTray: () => {
+    if (tray === null) {
+      createTray();
+    }
+
+    return tray;
+  }
 };

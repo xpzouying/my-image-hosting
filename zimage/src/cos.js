@@ -1,30 +1,25 @@
-const { Notification, clipboard } = require("electron");
+const { Notification } = require("electron");
 const COS = require("cos-nodejs-sdk-v5");
 const uuidv4 = require("uuid/v4");
 const { getConfig } = require("./config");
 
 let cos;
 
-function createCOSClient() {
-  var secretid = getConfig().cos.secretid;
-  var secretkey = getConfig().cos.secretkey;
+function putObject(image) {
+  let imageBuffer = image.toJPEG(100);
 
-  cos = new COS({
-    SecretId: secretid,
-    SecretKey: secretkey
-  });
-}
+  let cfg = getConfig();
+  let cosCfg = cfg.cos;
 
-function putObject(imageBuffer) {
-  var bucket = getConfig().cos.bucket;
-  var region = getConfig().cos.region;
-
-  // var bucket = config.cos.bucket;
-  // var region = config.cos.region;
+  var bucket = cosCfg.bucket;
+  var region = cosCfg.region;
   var objectKey = uuidv4();
 
   if (cos == null) {
-    createCOSClient();
+    cos = new COS({
+      SecretId: cosCfg.secretid,
+      SecretKey: cosCfg.secretkey
+    });
   }
 
   console.debug("put object config: ", bucket, region);
@@ -42,23 +37,24 @@ function putObject(imageBuffer) {
     function(err) {
       if (err) {
         console.error("put object error: ", err);
+
+        let n = new Notification({
+          title: "error",
+          body: err
+        });
+        n.show();
+
         return;
       }
-
-      let objectUrl =
-        "https://" + bucket + ".cos." + region + ".myqcloud.com/" + objectKey;
-
-      clipboard.writeText(objectUrl);
-      console.log("copied image address: ", objectUrl);
-
-      let notification = new Notification({
-        title: "copied image address",
-        body: objectUrl
-      });
-
-      notification.show();
     }
   );
+
+  let uploadURL =
+    "https://" + bucket + ".cos." + region + ".myqcloud.com/" + objectKey;
+
+  // TODO(zouying): 目前putObject为异步上传，需要修改为同步。
+  // 等待上传结果后，再返回
+  return uploadURL;
 }
 
 module.exports = {
