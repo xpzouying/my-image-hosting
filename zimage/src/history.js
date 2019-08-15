@@ -20,11 +20,12 @@ let uploadHistory = settings.get("upload-history") || [];
 
 function saveUploadHistory(url) {
   if (uploadHistory.length >= 5) {
-    uploadHistory.shift();
+    uploadHistory.pop();
   }
 
-  uploadHistory.push(url);
+  uploadHistory.unshift(url);
 
+  settings.set("upload-history", uploadHistory);
   console.log("save url: ", url, " succ, list: ", uploadHistory);
 }
 
