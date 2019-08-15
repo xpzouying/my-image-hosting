@@ -61,8 +61,7 @@ function uploadCopiedImage() {
     return;
   }
 
-  const url = putObject(image.toJPEG(100));
-  console.log("put object: ", url);
+  const url = putObject(image);
 
   clipboard.writeText(url);
 
@@ -72,7 +71,7 @@ function uploadCopiedImage() {
   });
   notification.show();
 
-  saveUploadHistory(url);
+  saveUploadHistory(url, image);
 }
 
 function createTray() {
@@ -80,19 +79,19 @@ function createTray() {
 
   const trayMenuTemplate = [
     {
-      label: "settings...",
+      label: "设置...",
       click: function() {
         openSettingsWindow();
       }
     },
     {
-      label: "upload image in clipboard",
+      label: "上传 - 剪切板图片",
       click: function() {
         uploadCopiedImage();
       }
     },
     {
-      label: "quit",
+      label: "退出",
       click: function() {
         app.quit();
       }
@@ -100,8 +99,6 @@ function createTray() {
   ];
 
   tray.on("right-click", () => {
-    console.log("right-click");
-
     let preview = openPreview();
   });
 

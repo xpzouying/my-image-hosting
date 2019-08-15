@@ -5,7 +5,9 @@ const { getConfig } = require("./config");
 
 let cos;
 
-function putObject(imageBuffer) {
+function putObject(image) {
+  let imageBuffer = image.toJPEG(100);
+
   let cfg = getConfig();
   let cosCfg = cfg.cos;
 
@@ -50,6 +52,8 @@ function putObject(imageBuffer) {
   let uploadURL =
     "https://" + bucket + ".cos." + region + ".myqcloud.com/" + objectKey;
 
+  // TODO(zouying): 目前putObject为异步上传，需要修改为同步。
+  // 等待上传结果后，再返回
   return uploadURL;
 }
 

@@ -51,6 +51,7 @@
     "cos-nodejs-sdk-v5": "^2.5.11",
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
+    "moment": "^2.24.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "uuid": "^3.3.2"
