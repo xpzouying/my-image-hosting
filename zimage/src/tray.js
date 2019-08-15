@@ -8,6 +8,7 @@ const {
   Notification
 } = require("electron");
 const path = require("path");
+const positioner = require("electron-traywindow-positioner");
 const { putObject } = require("./cos");
 const { saveUploadHistory } = require("./history");
 
@@ -16,13 +17,16 @@ let tray = null;
 function openPreview() {
   let preview = new BrowserWindow({
     title: "preview",
-    show: true
+    show: false,
+    modal: false,
+    alwaysOnTop: true
   });
 
-  preview.loadURL(`file://${__dirname}/preview/preview.html`);
   preview.on("closed", () => {
     preview = null;
   });
+
+  preview.loadURL(`file://${__dirname}/preview/preview.html`);
 
   return preview;
 }
@@ -100,6 +104,8 @@ function createTray() {
 
   tray.on("right-click", () => {
     let preview = openPreview();
+    positioner.position(preview, tray.getBounds());
+    preview.show();
   });
 
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);

@@ -20,7 +20,6 @@ class PreviewElement extends React.Component {
           </figure>
         </div>
         <div className="media-content">
-          {/* <p className="title is-4">{date}</p> */}
           <p className="subtitle is-6">{elem.url}</p>
           <p className="is-6">{date}</p>
         </div>
