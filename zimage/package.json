@@ -52,7 +52,7 @@
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-traywindow-positioner": "^0.0.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "uuid": "^3.3.2"
